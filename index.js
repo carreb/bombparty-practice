@@ -1,14 +1,16 @@
-var fs = require("fs");
-var prompts = fs.readFile("./dict/prompts.txt").toString().split("\n");
+  const RANDOM_PROMPT_URL = 'http://127.0.0.1:443/randomprompt'
+
 
 function getRandPrompt() {
-  var randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
-  return randomPrompt;
+  console.log(RANDOM_PROMPT_URL)
+  return fetch(RANDOM_PROMPT_URL, {method: 'GET'})
+    .then(response = response.json())
+    .then(data = data.prompt)
 }
 
-async function getPrompt() {
+async function getNextPrompt() {
     const prompt = await getRandPrompt();
     console.log(prompt)
 }
 
-getPrompt()
+getNextPrompt()
