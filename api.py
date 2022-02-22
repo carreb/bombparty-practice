@@ -1,5 +1,6 @@
 import json
 import secrets
+import re
 
 from flask import Flask
 __name__ = "main"
@@ -13,8 +14,13 @@ def get_random_prompt():
 @app.route('/hyphenatedwords')
 def get_hyphenated_words():
     with open('./dict/hyphen-dict.txt') as f:
-        Hyphenatedwords = f.readlines()
-        return json.dumps({'response': Hyphenatedwords})
+        hyphenatedwords = f.readlines()
+        hyphenList = []
+        for word in hyphenatedwords:
+          hyphen = word.replace('\n', '')
+          h = hyphen.replace('\u00e2\u20ac\u2122', "'")
+          hyphenList.append(h.lower())
+        return json.dumps({'response': hyphenList})
 
 
 if __name__ == 'main':
