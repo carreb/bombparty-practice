@@ -10,7 +10,7 @@ app = Flask(__name__)
 def get_random_prompt():
     with open('./dict/prompts.txt') as f:
         prompts = f.readlines()
-        response = flask.jsonify({'prompt': secrets.choice(prompts)})
+        response = flask.jsonify({'response': secrets.choice(prompts)})
         response.headers.add('Access-Control-Allow-Origin', '*')
         return response
 @app.route('/hyphenatedwords')
