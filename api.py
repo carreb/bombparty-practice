@@ -1,16 +1,18 @@
 import json
 import secrets
 import re
-
 from flask import Flask
+import flask
 __name__ = "main"
 app = Flask(__name__)
 
-@app.route('/randomprompt')
+@app.route('/randomprompt', methods=['GET'])
 def get_random_prompt():
     with open('./dict/prompts.txt') as f:
         prompts = f.readlines()
-        return json.dumps({'prompt': secrets.choice(prompts)})
+        response = flask.jsonify({'prompt': secrets.choice(prompts)})
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
 @app.route('/hyphenatedwords')
 def get_hyphenated_words():
     with open('./dict/hyphen-dict.txt') as f:
