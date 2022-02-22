@@ -3,13 +3,14 @@
 
 function getRandPrompt() {
   console.log(RANDOM_PROMPT_URL)
-  return fetch(RANDOM_PROMPT_URL, {method: 'GET'})
-    .then(response = response.json())
-    .then(data = data.prompt)
+  return fetch(RANDOM_PROMPT_URL)
+    .then(response => response.json())
+    .then(data => data.prompt)
 }
 
 async function getNextPrompt() {
     const prompt = await getRandPrompt();
+    console.log("The following is the letter prompt:")
     console.log(prompt)
 }
 
