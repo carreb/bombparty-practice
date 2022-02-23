@@ -1,6 +1,7 @@
   const RANDOM_PROMPT_URL = 'http://127.0.0.1:443/randomprompt'
   const promptDisplay = document.getElementById('prompt-display')
   const wordInput = document.getElementById('wordInput')
+  const submitButton = document.getElementById('submitButton')
   var promptRelated = {};
 
 function getRandPrompt() {
@@ -25,6 +26,13 @@ wordInput.addEventListener('input', () => {
     promptDisplay.classList.add('correctletters')
   }
   else if (!inputVal.includes(promptRelated.prompt)) {
+    promptDisplay.classList.remove('correctletters')
+  }
+})
+
+wordInput.addEventListener("keydown", function(e){
+  if (e.key === "Enter") {
+    wordInput.value = null
     promptDisplay.classList.remove('correctletters')
   }
 })
