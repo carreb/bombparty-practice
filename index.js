@@ -1,6 +1,7 @@
   const RANDOM_PROMPT_URL = 'http://127.0.0.1:443/randomprompt'
   const promptDisplay = document.getElementById('prompt-display')
-
+  const wordInput = document.getElementById('wordInput')
+  var promptRelated = {};
 
 function getRandPrompt() {
   console.log(RANDOM_PROMPT_URL)
@@ -9,11 +10,23 @@ function getRandPrompt() {
     .then(data => data.prompt)
 }
 
+
 async function renderPrompt() {
-    const prompt = await getRandPrompt();
+    promptRelated.prompt = await getRandPrompt();
     console.log("The following is the letter prompt:")
-    console.log(prompt)
-    promptDisplay.innerText = prompt
+    console.log(promptRelated.prompt)
+    promptDisplay.innerText = promptRelated.prompt
+    wordInput.value = null
 }
+
+wordInput.addEventListener('input', () => {
+  var inputVal = wordInput.value.toLowerCase()
+  if (inputVal.includes(promptRelated.prompt)) {
+    promptDisplay.classList.add('correctletters')
+  }
+  else if (!inputVal.includes(promptRelated.prompt)) {
+    promptDisplay.classList.remove('correctletters')
+  }
+})
 
 renderPrompt()

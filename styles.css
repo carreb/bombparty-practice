@@ -36,8 +36,8 @@ body, prompt-display {
     margin-bottom: 1rem;
 }
 
-.in-word {
-    color: aquamarine;
+.correctletters {
+    color: rgb(21, 182, 128);
     text-decoration: underline;
 }
 
@@ -62,3 +62,4 @@ body, prompt-display {
 .text-display {
     text-align: center;
 }
+
