@@ -61,6 +61,7 @@ body, prompt-display {
 
 .text-display {
     text-align: center;
+    margin-left: 8rem;
 }
 
 .rightOrWrong {
@@ -73,4 +74,9 @@ body, prompt-display {
 }
 .incorrectword {
     color: red;
+}
+
+.streak-display {
+    color: orangered;
+    text-align: left;
 }

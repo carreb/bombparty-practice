@@ -4,6 +4,7 @@
   const wordInput = document.getElementById('wordInput')
   var promptRelated = {};
   const rightOrWrong = document.getElementById('rightOrWrong')
+  const streakDisplay = document.getElementById('streakCount')
 
 function getRandPrompt() {
   console.log(RANDOM_PROMPT_URL)
@@ -57,25 +58,42 @@ async function getCorrectResponse(inputVal) {
   if (correctResponse === "true") {
     rightOrWrong.style.display = 'block'
     rightOrWrong.innerText = "✔ Correct!"
+    rightOrWrong.classList.remove('incorrectword')
     rightOrWrong.classList.add('correctword')
+    if (streakDisplay.style.display === 'none') {
+      streakDisplay.style.display = 'inline-block'
+    }
+    addToStreak()
   }
   else if (correctResponse === "false") {
-    console.log("Invalid word")
+    rightOrWrong.classList.remove('correctword')
     var incorrectReason = await getIncorrectReason(inputVal)
     rightOrWrong.style.display = 'block'
     if (incorrectReason === "no hyphen") {
       rightOrWrong.classList.add('incorrectword')
-      rightOrWrong.innerText = "✖ Incorrect! You didn't use a hyphen!"
+      rightOrWrong.innerText = "✖ Incorrect! You didn't use a hyphen! This error is also impossible to get!"
+      resetStreak()
   }
     else if (incorrectReason === "word not in list") {
       rightOrWrong.classList.add('incorrectword')
       rightOrWrong.innerText = "✖ Incorrect! Word is invalid!"
+      resetStreak()
   }
     else if (incorrectReason === "no prompt letters in word") {
       rightOrWrong.classList.add('incorrectword')
       rightOrWrong.innerText = "✖ Incorrect! You didn't use the prompt letters!"
+      resetStreak()
 }}}
 
+function addToStreak() {
+  var currentStreak = parseInt(streakDisplay.innerText)
+  currentStreak += 1
+  streakDisplay.innerText = currentStreak
+}
+function resetStreak() {
+  streakDisplay.innerText = 0
+  streakDisplay.style.display = 'none'
+}
 
 
 renderPrompt()
