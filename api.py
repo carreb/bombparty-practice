@@ -2,16 +2,19 @@ import json
 import secrets
 import re
 from flask import Flask
+from flask_cors import CORS, cross_origin
 import flask
 __name__ = "main"
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/randomprompt', methods=['GET'])
 def get_random_prompt():
     with open('./dict/prompts.txt') as f:
         prompts = f.readlines()
-        response = flask.jsonify({'response': secrets.choice(prompts)})
-        response.headers.add('Access-Control-Allow-Origin', '*')
+        #remove \n from each line (wow thanks copilot!)
+        prompts = [x.strip() for x in prompts]
+        response = flask.jsonify({'prompt': secrets.choice(prompts)})
         return response
 @app.route('/hyphenatedwords')
 def get_hyphenated_words():
