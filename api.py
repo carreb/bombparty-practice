@@ -26,7 +26,7 @@ def get_hyphenated_words():
           h = hyphen.replace('\u00e2\u20ac\u2122', "'")
           hyphenList.append(h.lower())
         return json.dumps({'response': hyphenList})
-@app.route('/cflhyphenated/<inputword>,<promptedletters>')
+@app.route('/cflhyphenated/<inputword>,<promptedletters>', methods=['GET'])
 def check_for_letters_in_word_hyphenated(inputword, promptedletters):
     with open('./dict/hyphen-dict.txt') as f:
         hyphenatedwords = f.readlines()
@@ -38,7 +38,7 @@ def check_for_letters_in_word_hyphenated(inputword, promptedletters):
         if promptedletters in inputword:
             if inputword in hyphenList:
                 if '-' in inputword:
-                    return json.dumps({'response': 'true'})
+                    return json.dumps({'response': 'true', 'reason': 'word found in dict & passed all checks'})
                 else:
                     return json.dumps({'response': 'false', 'reason': 'no hyphen'})
             else:
