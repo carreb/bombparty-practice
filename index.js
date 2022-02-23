@@ -2,8 +2,8 @@
   const HYPHENATED_CHECK_URL = 'http://127.0.0.1:443/cflhyphenated/'
   const promptDisplay = document.getElementById('prompt-display')
   const wordInput = document.getElementById('wordInput')
-  const submitButton = document.getElementById('submitButton')
   var promptRelated = {};
+  const rightOrWrong = document.getElementById('rightOrWrong')
 
 function getRandPrompt() {
   console.log(RANDOM_PROMPT_URL)
@@ -46,18 +46,36 @@ function checkCorrect(inputVal) {
   .then(data => data.response)
 }
 
+function getIncorrectReason(inputVal) {
+  return fetch(HYPHENATED_CHECK_URL + inputVal + ',' + promptRelated.prompt)
+  .then(response => response.json())
+  .then(data => data.reason)
+}
+
 async function getCorrectResponse(inputVal) {
   var correctResponse = await checkCorrect(inputVal)
   if (correctResponse === "true") {
-    console.log("Valid word")
+    rightOrWrong.style.display = 'block'
+    rightOrWrong.innerText = "✔ Correct!"
+    rightOrWrong.classList.add('correctword')
   }
   else if (correctResponse === "false") {
     console.log("Invalid word")
-    fetch(HYPHENATED_CHECK_URL + inputVal + ',' + promptRelated.prompt)
-      .then(response => response.json())
-      .then(data => console.log("reason: " + data.reason))
-
+    var incorrectReason = await getIncorrectReason(inputVal)
+    rightOrWrong.style.display = 'block'
+    if (incorrectReason === "no hyphen") {
+      rightOrWrong.classList.add('incorrectword')
+      rightOrWrong.innerText = "✖ Incorrect! You didn't use a hyphen!"
   }
-}
+    else if (incorrectReason === "word not in list") {
+      rightOrWrong.classList.add('incorrectword')
+      rightOrWrong.innerText = "✖ Incorrect! Word is invalid!"
+  }
+    else if (incorrectReason === "no prompt letters in word") {
+      rightOrWrong.classList.add('incorrectword')
+      rightOrWrong.innerText = "✖ Incorrect! You didn't use the prompt letters!"
+}}}
+
+
 
 renderPrompt()

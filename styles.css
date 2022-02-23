@@ -63,3 +63,14 @@ body, prompt-display {
     text-align: center;
 }
 
+.rightOrWrong {
+    text-align: center;
+    font-size: 1rem;
+}
+
+.correctword {
+    color: green;
+}
+.incorrectword {
+    color: red;
+}
