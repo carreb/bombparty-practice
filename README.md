@@ -1,2 +1,2 @@
 ﻿# bombparty-practice
-work in progress
+work in progress - docs coming soon
