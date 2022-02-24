@@ -81,3 +81,16 @@ body, prompt-display {
     color: orangered;
     text-align: left;
 }
+
+.helpbutton {
+    background-color: greenyellow;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    width: 100px;
+    max-width: 90%;
+    border: 4px solid greenyellow;
+    cursor: pointer;
+    position: absolute;
+    left: center;
+    top: 1rem
+}
