@@ -61,7 +61,8 @@ body, prompt-display {
 
 .text-display {
     text-align: center;
-    margin-left: 8rem;
+    margin-left: 19%;
+    margin-right: 19%;
 }
 
 .rightOrWrong {
