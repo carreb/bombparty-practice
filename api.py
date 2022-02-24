@@ -45,7 +45,17 @@ def check_for_letters_in_word_hyphenated(inputword, promptedletters):
                 return json.dumps({'response': 'false', 'reason': 'word not in list', 'word': inputword.lower()})
         else:
             return json.dumps({'response': 'false', 'reason': 'no prompt letters in word'})
-
+@app.route('/checkvalidwordshyphenated/<prompt>', methods=['GET'])
+def check_valid_words(prompt):
+    with open('./dict/hyphen-dict.txt') as f:
+        hyphenatedwords = f.readlines()
+        hyphenList = []
+        for word in hyphenatedwords:
+            if prompt in word:
+                hyphen = word.replace('\n', '')
+                h = hyphen.replace('\u00e2\u20ac\u2122', "'")
+                hyphenList.append(h.lower())
+        return json.dumps({'response': hyphenList})
 
 if __name__ == 'main':
     print('True')
