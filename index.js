@@ -5,6 +5,7 @@
   var promptRelated = {};
   const rightOrWrong = document.getElementById('rightOrWrong')
   const streakDisplay = document.getElementById('streakCount')
+  var currentStreak = 0
 
 function getRandPrompt() {
   console.log(RANDOM_PROMPT_URL)
@@ -88,7 +89,6 @@ async function getCorrectResponse(inputVal) {
 }}}
 
 function addToStreak() {
-  var currentStreak = parseInt(streakDisplay.innerText)
   currentStreak += 1
   streakDisplay.innerText = currentStreak
 }
