@@ -14,8 +14,12 @@ function getRandPrompt() {
 }
 
 
-async function renderPrompt() {
+async function renderPrompt(inputVal) {
     promptRelated.prompt = await getRandPrompt();
+    if (promptRelated.prompt === inputVal) {
+      console.log("same prompt generated; generating new")
+      return renderPrompt(promptRelated.prompt)
+    }
     console.log("The following is the letter prompt:")
     console.log(promptRelated.prompt)
     promptDisplay.innerText = promptRelated.prompt
@@ -60,9 +64,7 @@ async function getCorrectResponse(inputVal) {
     rightOrWrong.innerText = "✔ Correct!"
     rightOrWrong.classList.remove('incorrectword')
     rightOrWrong.classList.add('correctword')
-    if (streakDisplay.style.display === 'none') {
-      streakDisplay.style.display = 'inline-block'
-    }
+    renderPrompt(promptRelated.prompt)
     addToStreak()
   }
   else if (correctResponse === "false") {
@@ -92,7 +94,6 @@ function addToStreak() {
 }
 function resetStreak() {
   streakDisplay.innerText = 0
-  streakDisplay.style.display = 'none'
 }
 
 
