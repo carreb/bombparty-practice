@@ -8,6 +8,8 @@
   const helpRandom = document.getElementById('randomWordText')
   const promptDisplay = document.getElementById('prompt-display')
   const wordInput = document.getElementById('wordInput')
+  const correctSound = new Audio('./assets/Yes.mp3')
+  const incorrectSound = new Audio('./assets/No.mp3')
   var promptRelated = {};
   const rightOrWrong = document.getElementById('rightOrWrong')
   const streakDisplay = document.getElementById('streakCount')
@@ -98,6 +100,7 @@ function getIncorrectReason(inputVal) {
 async function getCorrectResponse(inputVal) {
   var correctResponse = await checkCorrect(inputVal)
   if (correctResponse === "true") {
+    correctSound.play()
     rightOrWrong.style.display = 'block'
     rightOrWrong.innerText = "✔ Correct!"
     rightOrWrong.classList.remove('incorrectword')
@@ -107,6 +110,7 @@ async function getCorrectResponse(inputVal) {
     addToStreak()
   }
   else if (correctResponse === "false") {
+    incorrectSound.play()
     rightOrWrong.classList.remove('correctword')
     var incorrectReason = await getIncorrectReason(inputVal)
     rightOrWrong.style.display = 'block'
