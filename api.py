@@ -4,9 +4,19 @@ import re
 from flask import Flask
 from flask_cors import CORS, cross_origin
 import flask
+import sys
 __name__ = "main"
 app = Flask(__name__)
 CORS(app)
+
+with open('./dict/hyphen-dict.txt') as f:
+    global marathonList
+    marathonList = []
+    marathonwords = f.readlines()
+    for word in marathonwords:
+        m = word.replace('\n', '')
+        m = m.replace('\u00e2\u20ac\u2122', "'")
+        marathonList.append(m.lower())
 
 @app.route('/randomprompt', methods=['GET'])
 def get_random_prompt():
@@ -56,6 +66,44 @@ def check_valid_words(prompt):
                 h = hyphen.replace('\u00e2\u20ac\u2122', "'")
                 hyphenList.append(h.lower())
         return json.dumps({'response': hyphenList, 'longest': max(hyphenList, key=len), 'shortest': min(hyphenList, key=len), 'random': secrets.choice(hyphenList)})
+@app.route('/marathonprompt/hyphenated/<userid>', methods=['GET'])
+def get_marathon_prompt_hyphenated(userid):
+    global marathonList
+    letterAmt = 0
+    word = secrets.choice(marathonList)
+    marathonList.remove(word)
+    word = list(word)
+    for letter in word:
+        if letter == '-':
+            pass
+        elif letter == "'":
+            pass
+        else:
+            letterAmt += 1
+    promptLetters = secrets.choice(range(4))
+    if promptLetters == 1:
+        promptLetters = 2
+    random1 = secrets.choice(range(letterAmt))
+    if random1 == letterAmt:
+        if promptLetters == 2:
+            random1 = random1 - 1
+        if promptLetters == 3:
+            random1 = random1 - 2
+    random2 = random1 + 1
+    if promptLetters == 3:
+        random3 = random1 + 2
+    else:
+        random3 = "null"
+    if random3 != "null":
+        try:
+          return json.dumps({'response': word[random1] + word[random2] + word[random3], 'wordsLeft': len(marathonList)})
+        except IndexError:
+            marathonList.append(word)
+            return get_marathon_prompt_hyphenated()
+    else:
+        return json.dumps({'response': word[random1] + word[random2], 'wordsLeft': len(marathonList)})
+
+
 
 if __name__ == 'main':
     print('True')
