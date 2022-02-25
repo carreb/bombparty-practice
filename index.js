@@ -6,6 +6,8 @@
   const helpShortest = document.getElementById('shortestText')
   const helpLongest = document.getElementById('longestText')
   const helpRandom = document.getElementById('randomWordText')
+  const devconsole = document.getElementById('devconsole')
+  const devInput = document.getElementById('devInput')
   const allHelpOptionsButton = document.getElementById('seeAllButton')
   const promptDisplay = document.getElementById('prompt-display')
   const wordInput = document.getElementById('wordInput')
@@ -111,6 +113,9 @@ async function getCorrectResponse(inputVal) {
     rightOrWrong.classList.remove('incorrectword')
     rightOrWrong.classList.add('correctword')
     overlay.style.display = 'none'
+    helpRandom.innerText = 'Loading...'
+    helpShortest.innerText = 'Loading...'
+    helpLongest.innerText = 'Loading...'
     renderPrompt(promptRelated.prompt)
     addToStreak()
   }
@@ -133,7 +138,11 @@ async function getCorrectResponse(inputVal) {
       rightOrWrong.classList.add('incorrectword')
       rightOrWrong.innerText = "✖ Incorrect! You didn't use the prompt letters!"
       resetStreak()
-}}}
+      if (inputVal.includes("developer_console")) {
+        devconsole.style.display = "block"
+        rightOrWrong.innerText = "Opened developer console."
+        rightOrWrong.classList.remove("incorrectword")
+}}}}
 
 function addToStreak() {
   currentStreak += 1
@@ -141,7 +150,23 @@ function addToStreak() {
 }
 function resetStreak() {
   streakDisplay.innerText = 0
+  currentStreak = 0 
 }
+
+devInput.addEventListener("keydown", function(e){
+  if (e.key === "Enter") {
+    if (devInput.value == "close") {
+      devconsole.style.display = "none"
+      devInput.value = null
+    }
+    else if (devInput.value.includes("setprompt")) {
+      var newPrompt = devInput.value.split(" ")[1]
+      promptRelated.prompt = newPrompt
+      promptDisplay.innerText = promptRelated.prompt
+      devInput.value = null
+    }
+}})
+
 
 
 renderPrompt()
