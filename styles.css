@@ -106,3 +106,7 @@ body, prompt-display {
     padding: 1rem;
     border: 4px solid lightgray;
 }
+
+.seeAllButton {
+    cursor: pointer;
+}

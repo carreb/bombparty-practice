@@ -6,6 +6,7 @@
   const helpShortest = document.getElementById('shortestText')
   const helpLongest = document.getElementById('longestText')
   const helpRandom = document.getElementById('randomWordText')
+  const allHelpOptionsButton = document.getElementById('seeAllButton')
   const promptDisplay = document.getElementById('prompt-display')
   const wordInput = document.getElementById('wordInput')
   const correctSound = new Audio('./assets/Yes.mp3')
@@ -83,6 +84,10 @@ async function setHelpOptions() {
 helpButton.addEventListener("click", () => {
   overlay.style.display = 'block'
   setHelpOptions()
+})
+
+allHelpOptionsButton.addEventListener("click", () => {
+  window.open(HELP_URL + promptRelated.prompt)
 })
 
 function checkCorrect(inputVal) {
