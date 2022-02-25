@@ -1,5 +1,11 @@
   const RANDOM_PROMPT_URL = 'http://127.0.0.1:443/randomprompt'
   const HYPHENATED_CHECK_URL = 'http://127.0.0.1:443/cflhyphenated/'
+  const HELP_URL = 'http://127.0.0.1:443/checkvalidwordshyphenated/'
+  const helpButton = document.getElementById('helpbutton')
+  const overlayBox = document.getElementById('overlay')
+  const helpShortest = document.getElementById('shortestText')
+  const helpLongest = document.getElementById('longestText')
+  const helpRandom = document.getElementById('randomWordText')
   const promptDisplay = document.getElementById('prompt-display')
   const wordInput = document.getElementById('wordInput')
   var promptRelated = {};
@@ -46,6 +52,37 @@ wordInput.addEventListener("keydown", function(e){
     }
 })
 
+function getHelpOptionsShortest() {
+  return fetch(HELP_URL + promptRelated.prompt)
+  .then(response => response.json())
+  .then(data => data.shortest)
+}
+function getHelpOptionsLongest() {
+  return fetch(HELP_URL + promptRelated.prompt)
+  .then(response => response.json())
+  .then(data => data.longest)
+}
+
+function getHelpOptionsRandom() {
+  return fetch(HELP_URL + promptRelated.prompt)
+  .then(response => response.json())
+  .then(data => data.random)
+}
+
+async function setHelpOptions() {
+  shortest = await getHelpOptionsShortest()
+  longest = await getHelpOptionsLongest()
+  random = await getHelpOptionsRandom()
+  helpRandom.innerText = "random: " + random
+  helpShortest.innerText = "shortest: " + shortest
+  helpLongest.innerText = "longest: " + longest
+}
+
+helpButton.addEventListener("click", () => {
+  overlay.style.display = 'block'
+  setHelpOptions()
+})
+
 function checkCorrect(inputVal) {
   return fetch(HYPHENATED_CHECK_URL + inputVal + ',' + promptRelated.prompt)
   .then(response => response.json())
@@ -65,6 +102,7 @@ async function getCorrectResponse(inputVal) {
     rightOrWrong.innerText = "✔ Correct!"
     rightOrWrong.classList.remove('incorrectword')
     rightOrWrong.classList.add('correctword')
+    overlay.style.display = 'none'
     renderPrompt(promptRelated.prompt)
     addToStreak()
   }

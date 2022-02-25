@@ -55,7 +55,7 @@ def check_valid_words(prompt):
                 hyphen = word.replace('\n', '')
                 h = hyphen.replace('\u00e2\u20ac\u2122', "'")
                 hyphenList.append(h.lower())
-        return json.dumps({'response': hyphenList, 'longest': max(hyphenList, key=len), 'shortest': min(hyphenList, key=len)})
+        return json.dumps({'response': hyphenList, 'longest': max(hyphenList, key=len), 'shortest': min(hyphenList, key=len), 'random': secrets.choice(hyphenList)})
 
 if __name__ == 'main':
     print('True')
