@@ -74,13 +74,28 @@ function getHelpOptionsRandom() {
   .then(data => data.random)
 }
 
+function getHelpOptionsAmount() {
+  return fetch(HELP_URL + promptRelated.prompt)
+  .then(response => response.json())
+  .then(data => data.amount)
+}
+
 async function setHelpOptions() {
   shortest = await getHelpOptionsShortest()
   longest = await getHelpOptionsLongest()
   random = await getHelpOptionsRandom()
-  helpRandom.innerText = "random: " + random
+  amount = await getHelpOptionsAmount()
   helpShortest.innerText = "shortest: " + shortest
   helpLongest.innerText = "longest: " + longest
+  if (amount === 1) {
+    helpRandom.innerText = "Max1 (H)"
+  }
+  else if (amount === 2) {
+    helpRandom.innerText = "Max2 (H)"
+  }
+  else {
+    helpRandom.innerText = "random: " + random
+  }
 }
 
 helpButton.addEventListener("click", () => {
@@ -163,6 +178,10 @@ devInput.addEventListener("keydown", function(e){
       var newPrompt = devInput.value.split(" ")[1]
       promptRelated.prompt = newPrompt
       promptDisplay.innerText = promptRelated.prompt
+      devInput.value = null
+    }
+    else if (devInput.value.includes("refreshprompt")) {
+      renderPrompt()
       devInput.value = null
     }
 }})
