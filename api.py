@@ -61,13 +61,16 @@ def check_valid_words(prompt):
         hyphenatedwords = f.readlines()
         hyphenList = []
         for word in hyphenatedwords:
+            word = word.lower()
             if prompt in word:
                 hyphen = word.replace('\n', '')
                 h = hyphen.replace('\u00e2\u20ac\u2122', "'")
                 hyphenList.append(h.lower())
-        return json.dumps({'response': hyphenList, 'longest': max(hyphenList, key=len), 'shortest': min(hyphenList, key=len), 'random': secrets.choice(hyphenList)})
-@app.route('/marathonprompt/hyphenated/<userid>', methods=['GET'])
-def get_marathon_prompt_hyphenated(userid):
+        return json.dumps({'response': hyphenList, 'longest': max(hyphenList, key=len), 'shortest': min(hyphenList, key=len), 'random': secrets.choice(hyphenList), 'amount': len(hyphenList)})
+
+
+@app.route('/marathonprompt/hyphenated', methods=['GET'])
+def get_marathon_prompt_hyphenated():
     global marathonList
     letterAmt = 0
     word = secrets.choice(marathonList)
