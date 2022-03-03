@@ -87,6 +87,7 @@ async function setHelpOptions() {
   amount = await getHelpOptionsAmount()
   helpShortest.innerText = "shortest: " + shortest
   helpLongest.innerText = "longest: " + longest
+  document.getElementById("amtOfWordsTxt").innerText = "Total Valid Words: " + amount
   if (amount === 1) {
     helpRandom.innerText = "Max1 (H)"
   }
