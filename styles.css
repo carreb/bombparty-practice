@@ -30,7 +30,7 @@ body {
     background-color: #18ac56;
     border: 4px solid #44ac56;
     outline: none;
-    width: 100%;
+    width: 80%;
     resize: none;
     margin: auto;
     align-self: center;
@@ -45,7 +45,7 @@ body {
     background-color: #029c56;
     border: 4px solid #18ac56;
     outline: none;
-    width: 100%;
+    width: 80%;
     resize: none;
     margin: auto;
     align-self: center;
@@ -69,4 +69,10 @@ body {
     width: 350px;
     max-width: 90%;
     text-align: center;
+}
+.infotext {
+    color: blue;
+}
+.infotext:visited {
+    color: blue
 }
