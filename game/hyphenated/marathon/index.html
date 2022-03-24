@@ -1,1 +1,35 @@
-null
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital@0;1&display=swap" rel="stylesheet">
+    <script src="index.js" defer></script>
+    <title>BP Practice - Hyphenated</title>
+</head>
+<body>
+    <button class="helpbutton" id="helpbutton">Help!</button>
+    <div class="overlay" id="overlay" style="display: none;">
+        <div class="shortestText"  id="shortestText">null</div>
+        <div class="longestText" id="longestText">null</div>
+        <div class="randomWordText" id="randomWordText">null</div>
+        <button class="seeAllButton" id="seeAllButton" style="display: inline-block;">See All</button>
+        <div class="amtOfWordsTxt" id="amtOfWordsTxt" style="display: inline-block;"></div>
+    </div>
+    <div class="container">
+        <div class="fire-emoji" id="fire" style="display: inline-block;">🔥</div>
+        <div class="streak-display" id="streakCount" style="display: inline-block;">0</div>
+        <div class="text-display" id="text-display" style="display: inline-block;">write a hyphenated word with the following prompt:</div>
+        <div class="prompt-display" id="prompt-display"></div>
+        <input type="text" id="wordInput" class="word-input" spellcheck="false" maxlength="30" autofocus></textarea>
+        <div class="rightOrWrong" id="rightOrWrong" style="display: none;"></div>
+    </div>
+    <div class="devconsole" id="devconsole" style="display: none;">
+        <input type="text" id="devInput" class="dev-input" spellcheck="false" maxlength="30"></textarea>
+    </div>
+</body>
+</html>
