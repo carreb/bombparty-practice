@@ -167,3 +167,13 @@ body, prompt-display {
     text-align: center;
     color: #ffffff;
 }
+
+.settings {
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    width: 210px;
+    bottom: 1rem;
+    position: fixed;
+    max-width: 90%;
+}

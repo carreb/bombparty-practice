@@ -1,6 +1,6 @@
-  const RANDOM_PROMPT_URL = 'https://bombparty-api.herokuapp.com/randomprompt'
-  const HYPHENATED_CHECK_URL = 'https://bombparty-api.herokuapp.com/cflhyphenated/'
-  const HELP_URL = 'https://bombparty-api.herokuapp.com/checkvalidwordshyphenated/'
+  const RANDOM_PROMPT_URL = 'http://127.0.0.1:5000/randomprompt'
+  const HYPHENATED_CHECK_URL = 'http://127.0.0.1:5000/cflhyphenated/'
+  const HELP_URL = 'http://127.0.0.1:5000/checkvalidwordshyphenated/'
   const helpButton = document.getElementById('helpbutton')
   const overlayBox = document.getElementById('overlay')
   const helpShortest = document.getElementById('shortestText')
@@ -16,7 +16,23 @@
   var promptRelated = {};
   const rightOrWrong = document.getElementById('rightOrWrong')
   const streakDisplay = document.getElementById('streakCount')
+  const allowReuseWords = document.getElementById('allowReuseWords')
   var currentStreak = 0
+  var usedWords = []
+  var header = {
+    'usedWords': usedWords
+  } 
+
+allowReuseWords.checked = true
+
+allowReuseWords.onclick = () => {
+  if (allowReuseWords.checked) {
+    usedWords = []
+  }
+  else if (!allowReuseWords.checked) {
+    
+  }
+}
 
 function getRandPrompt() {
   console.log(RANDOM_PROMPT_URL)
@@ -109,7 +125,10 @@ allHelpOptionsButton.addEventListener("click", () => {
 })
 
 function checkCorrect(inputVal) {
-  return fetch(HYPHENATED_CHECK_URL + inputVal + ',' + promptRelated.prompt)
+  return fetch(HYPHENATED_CHECK_URL + inputVal + ',' + promptRelated.prompt, {
+    method: 'GET',
+    headers: header
+  })
   .then(response => response.json())
   .then(data => data.response)
 }
@@ -125,7 +144,7 @@ async function getCorrectResponse(inputVal) {
   if (correctResponse === "true") {
     correctSound.play()
     rightOrWrong.style.display = 'block'
-    rightOrWrong.innerText = "✔ Correct!"
+    rightOrWrong.innerText = "✔ " + inputVal.toLowerCase() + " is valid!"
     rightOrWrong.classList.remove('incorrectword')
     rightOrWrong.classList.add('correctword')
     overlay.style.display = 'none'
@@ -134,6 +153,10 @@ async function getCorrectResponse(inputVal) {
     helpLongest.innerText = 'Loading...'
     renderPrompt(promptRelated.prompt)
     addToStreak()
+        if (allowReuseWords.checked === false) {
+          usedWords.push(inputVal)
+          console.log(usedWords)
+        }
   }
   else if (correctResponse === "false") {
     incorrectSound.play()
@@ -158,7 +181,12 @@ async function getCorrectResponse(inputVal) {
         devconsole.style.display = "block"
         rightOrWrong.innerText = "Opened developer console."
         rightOrWrong.classList.remove("incorrectword")
-}}}}
+}
+    else if (incorrectReason === "reused word") {
+      rightOrWrong.classList.add('incorrectword')
+      rightOrWrong.innerText = "✖ Incorrect! You already used this word!"
+      resetStreak()
+    }}}}
 
 function addToStreak() {
   currentStreak += 1
@@ -186,7 +214,6 @@ devInput.addEventListener("keydown", function(e){
       devInput.value = null
     }
 }})
-
 
 
 renderPrompt()
