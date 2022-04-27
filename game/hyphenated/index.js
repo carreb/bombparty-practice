@@ -1,6 +1,6 @@
-  const RANDOM_PROMPT_URL = 'http://127.0.0.1:5000/randomprompt'
-  const HYPHENATED_CHECK_URL = 'http://127.0.0.1:5000/cflhyphenated/'
-  const HELP_URL = 'http://127.0.0.1:5000/checkvalidwordshyphenated/'
+  const RANDOM_PROMPT_URL = 'https://bombparty-api.herokuapp.com/randomprompt'
+  const HYPHENATED_CHECK_URL = 'https://bombparty-api.herokuapp.com/cflhyphenated/'
+  const HELP_URL = 'https://bombparty-api.herokuapp.com/checkvalidwordshyphenated/'
   const helpButton = document.getElementById('helpbutton')
   const overlayBox = document.getElementById('overlay')
   const helpShortest = document.getElementById('shortestText')
