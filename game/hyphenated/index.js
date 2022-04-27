@@ -19,18 +19,12 @@
   const allowReuseWords = document.getElementById('allowReuseWords')
   var currentStreak = 0
   var usedWords = []
-  var header = {
-    'usedWords': usedWords
-  } 
 
 allowReuseWords.checked = true
 
 allowReuseWords.onclick = () => {
   if (allowReuseWords.checked) {
     usedWords = []
-  }
-  else if (!allowReuseWords.checked) {
-    
   }
 }
 
@@ -125,10 +119,7 @@ allHelpOptionsButton.addEventListener("click", () => {
 })
 
 function checkCorrect(inputVal) {
-  return fetch(HYPHENATED_CHECK_URL + inputVal + ',' + promptRelated.prompt, {
-    method: 'GET',
-    headers: header
-  })
+  return fetch(HYPHENATED_CHECK_URL + inputVal + ',' + promptRelated.prompt)
   .then(response => response.json())
   .then(data => data.response)
 }
@@ -140,7 +131,14 @@ function getIncorrectReason(inputVal) {
 }
 
 async function getCorrectResponse(inputVal) {
-  var correctResponse = await checkCorrect(inputVal)
+  if (usedWords.includes(inputVal)) {
+    rightOrWrong.classList.add('incorrectword')
+    rightOrWrong.innerText = "✖ Incorrect! You've already used this word!"
+    incorrectSound.play()
+    resetStreak()
+  }
+  else {
+var correctResponse = await checkCorrect(inputVal)
   if (correctResponse === "true") {
     correctSound.play()
     rightOrWrong.style.display = 'block'
@@ -154,7 +152,7 @@ async function getCorrectResponse(inputVal) {
     renderPrompt(promptRelated.prompt)
     addToStreak()
         if (allowReuseWords.checked === false) {
-          usedWords.push(inputVal)
+          usedWords.push(inputVal.toLowerCase())
           console.log(usedWords)
         }
   }
@@ -187,6 +185,8 @@ async function getCorrectResponse(inputVal) {
       rightOrWrong.innerText = "✖ Incorrect! You already used this word!"
       resetStreak()
     }}}}
+  }
+  
 
 function addToStreak() {
   currentStreak += 1
