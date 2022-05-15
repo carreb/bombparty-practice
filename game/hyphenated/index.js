@@ -17,6 +17,7 @@
   const rightOrWrong = document.getElementById('rightOrWrong')
   const streakDisplay = document.getElementById('streakCount')
   const allowReuseWords = document.getElementById('allowReuseWords')
+  const promptAnims = document.getElementById('animationsSetting')
   var currentStreak = 0
   var usedWords = []
 
@@ -35,6 +36,9 @@ function getRandPrompt() {
     .then(data => data.prompt)
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 async function renderPrompt(inputVal) {
     promptRelated.prompt = await getRandPrompt();
@@ -95,6 +99,7 @@ async function setHelpOptions() {
   longest = await getHelpOptionsLongest()
   random = await getHelpOptionsRandom()
   amount = await getHelpOptionsAmount()
+  wordInput.focus();
   helpShortest.innerText = "shortest: " + shortest
   helpLongest.innerText = "longest: " + longest
   document.getElementById("amtOfWordsTxt").innerText = "Total Valid Words: " + amount
@@ -149,12 +154,24 @@ var correctResponse = await checkCorrect(inputVal)
     helpRandom.innerText = 'Loading...'
     helpShortest.innerText = 'Loading...'
     helpLongest.innerText = 'Loading...'
-    renderPrompt(promptRelated.prompt)
     addToStreak()
-        if (allowReuseWords.checked === false) {
+        if (!allowReuseWords.checked) {
           usedWords.push(inputVal.toLowerCase())
           console.log(usedWords)
         }
+    if (promptAnims.checked) {
+      promptDisplay.classList.add('moveout')
+      sleep(1000).then(() => {
+        promptDisplay.classList.remove('moveout')
+        promptDisplay.classList.add('movein')
+        renderPrompt(promptRelated.prompt)
+        sleep(1000).then(() => {
+          promptDisplay.classList.remove('movein')
+        })
+      })
+    } else {
+      renderPrompt(promptRelated.prompt)
+    }
   }
   else if (correctResponse === "false") {
     incorrectSound.play()
